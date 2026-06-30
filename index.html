@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio — Creative Creator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D0D1A;
+      --surface:   #17172A;
+      --glass:     rgba(30, 28, 60, 0.55);
+      --violet:    #7C3AED;
+      --violet-lt: #A855F7;
+      --cyan:      #22D3EE;
+      --cyan-lt:   #67E8F9;
+      --white:     #F0EEFF;
+      --muted:     #8B8AAE;
+      --border:    rgba(124, 58, 237, 0.25);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0; opacity: .4;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.2rem 4rem;
+      background: rgba(13,13,26,.75);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700; font-size: 1.2rem;
+      background: linear-gradient(135deg, var(--violet-lt), var(--cyan));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      letter-spacing: -.02em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+    .hero-glow {
+      position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-family: 'DM Mono', monospace; font-size: .8rem;
+      color: var(--cyan); letter-spacing: .15em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-tag span { display: inline-block; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 700; line-height: 1.05;
+      letter-spacing: -.03em;
+    }
+    .gradient-text {
+      background: linear-gradient(135deg, var(--violet-lt) 0%, var(--cyan) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-sub {
+      max-width: 520px; margin: 1.5rem auto 0;
+      color: var(--muted); font-size: 1.1rem; line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+    .btn-primary {
+      padding: .9rem 2rem; border-radius: 100px;
+      background: linear-gradient(135deg, var(--violet), var(--violet-lt));
+      color: #fff; font-weight: 600; font-size: .95rem;
+      text-decoration: none; border: none; cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 0 24px rgba(124,58,237,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(124,58,237,.55); }
+    .btn-outline {
+      padding: .9rem 2rem; border-radius: 100px;
+      border: 1px solid var(--border); color: var(--white);
+      background: var(--glass); backdrop-filter: blur(10px);
+      font-weight: 500; font-size: .95rem;
+      text-decoration: none; cursor: pointer;
+      transition: border-color .2s, transform .2s;
+    }
+    .btn-outline:hover { border-color: var(--violet-lt); transform: translateY(-2px); }
+
+    .hero-stats {
+      display: flex; gap: 3rem; justify-content: center;
+      margin-top: 4rem; flex-wrap: wrap;
+    }
+    .stat-item { text-align: center; }
+    .stat-num {
+      font-family: 'DM Mono', monospace; font-size: 1.8rem; font-weight: 500;
+      color: var(--white); display: block;
+    }
+    .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: .05em; }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
+    .section-eyebrow {
+      font-family: 'DM Mono', monospace; font-size: .78rem;
+      color: var(--cyan); letter-spacing: .2em; text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    h2 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700; letter-spacing: -.025em; line-height: 1.1;
+      margin-bottom: .75rem;
+    }
+    .section-lead { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin-bottom: 3rem; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    /* ─── TIKTOK CARDS ─── */
+    .tiktok-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .tiktok-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+      cursor: pointer;
+    }
+    .tiktok-card::before {
+      content: '';
+      position: absolute; inset: 0; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(124,58,237,.08), rgba(34,211,238,.06));
+      opacity: 0; transition: opacity .3s;
+    }
+    .tiktok-card:hover { transform: translateY(-6px); border-color: var(--violet-lt); box-shadow: 0 20px 50px rgba(124,58,237,.2); }
+    .tiktok-card:hover::before { opacity: 1; }
+
+    .card-platform {
+      display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem;
+    }
+    .tt-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #010101, #1a1a2e);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; border: 1px solid rgba(255,255,255,.1);
+    }
+    .platform-name { font-family: 'DM Mono', monospace; font-size: .8rem; color: var(--muted); }
+
+    .card-handle {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem; font-weight: 700; margin-bottom: .4rem;
+    }
+    .card-niche {
+      font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem;
+    }
+    .card-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .cs-item { background: rgba(255,255,255,.04); border-radius: 10px; padding: .75rem 1rem; }
+    .cs-val {
+      font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 500;
+      color: var(--cyan);
+    }
+    .cs-key { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+
+    .card-badge {
+      position: absolute; top: 1.2rem; right: 1.2rem;
+      font-size: .72rem; font-family: 'DM Mono', monospace;
+      padding: .3rem .7rem; border-radius: 100px;
+      background: rgba(34,211,238,.12); color: var(--cyan-lt);
+      border: 1px solid rgba(34,211,238,.2);
+    }
+
+    /* ─── WEB PROJECT ─── */
+    .project-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      border: 1px solid var(--border); border-radius: 20px;
+      background: var(--glass); backdrop-filter: blur(16px);
+      overflow: hidden;
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(34,211,238,.15); border-color: var(--cyan); }
+
+    .project-thumb {
+      height: 180px; position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--surface), #1e1c3e);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .thumb-icon { font-size: 3.5rem; opacity: .5; }
+    .thumb-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(34,211,238,.1));
+    }
+    .project-body { padding: 1.5rem; }
+    .project-type {
+      font-size: .75rem; font-family: 'DM Mono', monospace;
+      color: var(--violet-lt); letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+    .project-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem; font-weight: 700; margin-bottom: .5rem;
+    }
+    .project-desc { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.2rem; }
+    .tag {
+      font-size: .72rem; padding: .25rem .7rem; border-radius: 100px;
+      background: rgba(124,58,237,.12); color: var(--violet-lt);
+      border: 1px solid rgba(124,58,237,.2);
+    }
+    .project-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .85rem; color: var(--cyan); text-decoration: none; font-weight: 500;
+      transition: gap .2s;
+    }
+    .project-link:hover { gap: .7rem; }
+
+    /* ─── SKILLS ─── */
+    .skills-wrap {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .skill-pill {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem 1.25rem; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--glass);
+      transition: border-color .2s, transform .2s;
+    }
+    .skill-pill:hover { border-color: var(--violet-lt); transform: translateX(4px); }
+    .skill-icon { font-size: 1.5rem; width: 36px; text-align: center; }
+    .skill-name { font-size: .9rem; font-weight: 500; }
+    .skill-level {
+      margin-left: auto; font-family: 'DM Mono', monospace;
+      font-size: .75rem; color: var(--violet-lt);
+    }
+
+    /* ─── CONTACT ─── */
+    #contact { text-align: center; padding: 6rem 2rem 8rem; }
+    .contact-card {
+      max-width: 600px; margin: 0 auto;
+      padding: 3rem; border-radius: 24px;
+      border: 1px solid var(--border); background: var(--glass);
+      backdrop-filter: blur(20px);
+      position: relative; overflow: hidden;
+    }
+    .contact-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(124,58,237,.12), transparent 65%);
+      pointer-events: none;
+    }
+    .contact-card h2 { margin-bottom: .5rem; }
+    .contact-card p { color: var(--muted); margin-bottom: 2rem; }
+    .social-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .social-btn {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .75rem 1.4rem; border-radius: 100px;
+      border: 1px solid var(--border); background: rgba(255,255,255,.04);
+      color: var(--white); text-decoration: none; font-size: .88rem; font-weight: 500;
+      transition: border-color .2s, transform .2s, background .2s;
+    }
+    .social-btn:hover { border-color: var(--violet-lt); background: rgba(124,58,237,.12); transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      text-align: center; padding: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .82rem;
+      font-family: 'DM Mono', monospace;
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 10px; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .hero-stats { gap: 2rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; }
+      * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">@CreatorName</div>
+  <ul class="nav-links">
+    <li><a href="#tiktok">TikTok</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Kontak</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <p class="hero-tag">✦ Content Creator &amp; Web Developer <span>|</span></p>
+  <h1>
+    Bikin Konten.<br>
+    <span class="gradient-text">Bangun Digital.</span>
+  </h1>
+  <p class="hero-sub">
+    Kreator multi-platform dengan fokus di edukasi, teknologi, dan kehidupan sehari-hari. Dari TikTok viral sampai platform belajar interaktif.
+  </p>
+  <div class="hero-ctas">
+    <a href="#tiktok" class="btn-primary">Lihat Portfolio →</a>
+    <a href="#contact" class="btn-outline">Hubungi Saya</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num" data-target="3">0</span>
+      <span class="stat-label">Akun TikTok</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="50" data-suffix="K+">0</span>
+      <span class="stat-label">Total Followers</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="5" data-suffix="+">0</span>
+      <span class="stat-label">Web Projects</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="2" data-suffix=" Tahun">0</span>
+      <span class="stat-label">Pengalaman</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIKTOK SECTION -->
+<section id="tiktok">
+  <p class="section-eyebrow reveal">✦ Social Media</p>
+  <h2 class="reveal">Akun <span class="gradient-text">TikTok</span></h2>
+  <p class="section-lead reveal">Tiga akun dengan niche berbeda — edukasi, teknologi, dan lifestyle. Setiap konten dibuat dengan tujuan dan dampak yang jelas.</p>
+
+  <div class="tiktok-grid">
+
+    <!-- Akun 1 -->
+    <div class="tiktok-card reveal">
+      <span class="card-badge">● Live</span>
+      <div class="card-platform">
+        <div class="tt-icon">🎵</div>
+        <span class="platform-name">TikTok</span>
+      </div>
+      <div class="card-handle">@NamaAkun1</div>
+      <div class="card-niche">📚 Edukasi &amp; Tips Belajar</div>
+      <div class="card-stats">
+        <div class="cs-item">
+          <div class="cs-val">12.5K</div>
+          <div class="cs-key">Followers</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">850K</div>
+          <div class="cs-key">Total Views</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">4.8%</div>
+          <div class="cs-key">Engagement</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">120+</div>
+          <div class="cs-key">Videos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Akun 2 -->
+    <div class="tiktok-card reveal" style="transition-delay:.1s">
+      <span class="card-badge">● Live</span>
+      <div class="card-platform">
+        <div class="tt-icon">🎵</div>
+        <span class="platform-name">TikTok</span>
+      </div>
+      <div class="card-handle">@NamaAkun2</div>
+      <div class="card-niche">💻 Teknologi &amp; Coding</div>
+      <div class="card-stats">
+        <div class="cs-item">
+          <div class="cs-val">22K</div>
+          <div class="cs-key">Followers</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">1.4M</div>
+          <div class="cs-key">Total Views</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">5.2%</div>
+          <div class="cs-key">Engagement</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">200+</div>
+          <div class="cs-key">Videos</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Akun 3 -->
+    <div class="tiktok-card reveal" style="transition-delay:.2s">
+      <span class="card-badge">● Live</span>
+      <div class="card-platform">
+        <div class="tt-icon">🎵</div>
+        <span class="platform-name">TikTok</span>
+      </div>
+      <div class="card-handle">@NamaAkun3</div>
+      <div class="card-niche">🌟 Lifestyle &amp; Daily Life</div>
+      <div class="card-stats">
+        <div class="cs-item">
+          <div class="cs-val">16K</div>
+          <div class="cs-key">Followers</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">920K</div>
+          <div class="cs-key">Total Views</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">4.1%</div>
+          <div class="cs-key">Engagement</div>
+        </div>
+        <div class="cs-item">
+          <div class="cs-val">90+</div>
+          <div class="cs-key">Videos</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS SECTION -->
+<section id="projects">
+  <p class="section-eyebrow reveal">✦ Web Projects</p>
+  <h2 class="reveal">Website &amp; <span class="gradient-text">Projects</span></h2>
+  <p class="section-lead reveal">Dari platform media pembelajaran interaktif hingga proyek-proyek sederhana yang memecahkan masalah nyata.</p>
+
+  <div class="project-grid">
+
+    <!-- Project 1: Platform Pembelajaran -->
+    <div class="project-card reveal">
+      <div class="project-thumb">
+        <div class="thumb-overlay"></div>
+        <div class="thumb-icon">🎓</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Media Pembelajaran</div>
+        <div class="project-title">EduLearn Platform</div>
+        <p class="project-desc">Platform belajar online interaktif dengan materi video, kuis, dan progress tracker untuk pelajar Indonesia.</p>
+        <div class="project-tags">
+          <span class="tag">HTML/CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React</span>
+          <span class="tag">Firebase</span>
+        </div>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </div>
+    </div>
+
+    <!-- Project 2: Simple Tool -->
+    <div class="project-card reveal" style="transition-delay:.1s">
+      <div class="project-thumb" style="background: linear-gradient(135deg, #1e1c3e, #0f1e3a);">
+        <div class="thumb-overlay"></div>
+        <div class="thumb-icon">🛠️</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Proyek Sederhana</div>
+        <div class="project-title">Jadwal Pelajaran App</div>
+        <p class="project-desc">Aplikasi manajemen jadwal pelajaran untuk siswa dengan fitur reminder dan export PDF.</p>
+        <div class="project-tags">
+          <span class="tag">Vanilla JS</span>
+          <span class="tag">LocalStorage</span>
+          <span class="tag">CSS Grid</span>
+        </div>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </div>
+    </div>
+
+    <!-- Project 3: Portfolio/Blog -->
+    <div class="project-card reveal" style="transition-delay:.2s">
+      <div class="project-thumb" style="background: linear-gradient(135deg, #0d1a1e, #0a1a1e);">
+        <div class="thumb-overlay" style="background: linear-gradient(135deg, rgba(34,211,238,.15), rgba(124,58,237,.1));"></div>
+        <div class="thumb-icon">✍️</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Blog &amp; Konten</div>
+        <div class="project-title">Tech Blog Personal</div>
+        <p class="project-desc">Blog teknologi berisi tutorial, tips coding, dan insight dari dunia kreator konten digital Indonesia.</p>
+        <div class="project-tags">
+          <span class="tag">Next.js</span>
+          <span class="tag">MDX</span>
+          <span class="tag">Tailwind</span>
+        </div>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </div>
+    </div>
+
+    <!-- Project 4: Simple Tool 2 -->
+    <div class="project-card reveal" style="transition-delay:.3s">
+      <div class="project-thumb" style="background: linear-gradient(135deg, #1a0d2e, #0d1a0d);">
+        <div class="thumb-overlay" style="background: linear-gradient(135deg, rgba(168,85,247,.15), rgba(34,211,238,.1));"></div>
+        <div class="thumb-icon">📊</div>
+      </div>
+      <div class="project-body">
+        <div class="project-type">Proyek Sederhana</div>
+        <div class="project-title">Kalkulator Nilai GPA</div>
+        <p class="project-desc">Tool sederhana untuk menghitung GPA dan nilai akhir semester dengan interface yang bersih dan mudah.</p>
+        <div class="project-tags">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+          <span class="tag">JavaScript</span>
+        </div>
+        <a href="#" class="project-link">Lihat Project →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS SECTION -->
+<section id="skills">
+  <p class="section-eyebrow reveal">✦ Kemampuan</p>
+  <h2 class="reveal">Tools &amp; <span class="gradient-text">Skills</span></h2>
+  <p class="section-lead reveal">Kombinasi kemampuan teknis dan kreativitas konten untuk hasil yang maksimal.</p>
+
+  <div class="skills-wrap">
+    <div class="skill-pill reveal"><span class="skill-icon">🎬</span><span class="skill-name">Video Editing</span><span class="skill-level">Expert</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.05s"><span class="skill-icon">📱</span><span class="skill-name">TikTok / CapCut</span><span class="skill-level">Expert</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.1s"><span class="skill-icon">🌐</span><span class="skill-name">HTML / CSS</span><span class="skill-level">Advanced</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.15s"><span class="skill-icon">⚡</span><span class="skill-name">JavaScript</span><span class="skill-level">Intermediate</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.2s"><span class="skill-icon">🎨</span><span class="skill-name">Canva / Figma</span><span class="skill-level">Advanced</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.25s"><span class="skill-icon">📊</span><span class="skill-name">Content Strategy</span><span class="skill-level">Expert</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.3s"><span class="skill-icon">🔥</span><span class="skill-name">Firebase</span><span class="skill-level">Intermediate</span></div>
+    <div class="skill-pill reveal" style="transition-delay:.35s"><span class="skill-icon">⚛️</span><span class="skill-name">React / Next.js</span><span class="skill-level">Beginner</span></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-card reveal">
+    <p class="section-eyebrow" style="text-align:center">✦ Let's Connect</p>
+    <h2>Yuk <span class="gradient-text">Kolaborasi!</span></h2>
+    <p>Terbuka untuk kerja sama brand, freelance web, atau kolaborasi konten. Kirim pesan, kita ngobrol dulu!</p>
+    <div class="social-links">
+      <a href="mailto:email@kamu.com" class="social-btn">📧 Email</a>
+      <a href="https://tiktok.com/@NamaAkun1" class="social-btn" target="_blank">🎵 TikTok #1</a>
+      <a href="https://tiktok.com/@NamaAkun2" class="social-btn" target="_blank">🎵 TikTok #2</a>
+      <a href="https://tiktok.com/@NamaAkun3" class="social-btn" target="_blank">🎵 TikTok #3</a>
+      <a href="https://instagram.com" class="social-btn" target="_blank">📸 Instagram</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Dibuat dengan ✦ · <span id="year"></span> · @CreatorName</p>
+</footer>
+
+<script>
+  // Year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  // Counter animation
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1400;
+    const start = performance.now();
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target) + (progress === 1 ? suffix : '');
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const counters = document.querySelectorAll('.stat-num');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
+  }, { threshold: .5 });
+  counters.forEach(c => counterObs.observe(c));
+</script>
+</body>
+</html>
