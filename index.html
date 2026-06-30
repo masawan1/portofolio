@@ -2,8 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portfolio — Creative Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Portfolio — Dwi Frediawan</title>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -21,7 +21,7 @@
       --border:    rgba(124, 58, 237, 0.25);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       background: var(--bg);
@@ -30,7 +30,10 @@
       font-size: 16px;
       line-height: 1.6;
       overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
     }
+
+    img, svg { max-width: 100%; }
 
     /* ─── NOISE OVERLAY ─── */
     body::before {
@@ -55,6 +58,7 @@
       background: linear-gradient(135deg, var(--violet-lt), var(--cyan));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       letter-spacing: -.02em;
+      white-space: nowrap;
     }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
     .nav-links a {
@@ -63,9 +67,74 @@
     }
     .nav-links a:hover { color: var(--white); }
 
+    /* Hamburger button (hidden on desktop) */
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      padding: 0;
+      align-items: center;
+    }
+    .nav-toggle span {
+      width: 20px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform .3s ease, opacity .3s ease;
+    }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile dropdown menu */
+    .nav-mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; right: 0;
+      height: 100dvh;
+      width: min(78vw, 320px);
+      background: rgba(13,13,26,.97);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid var(--border);
+      z-index: 99;
+      flex-direction: column;
+      gap: .25rem;
+      padding: 6.5rem 1.5rem 2rem;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+    }
+    .nav-mobile-menu.open { transform: translateX(0); }
+    .nav-mobile-menu a {
+      color: var(--white);
+      text-decoration: none;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      padding: 1rem .5rem;
+      border-bottom: 1px solid var(--border);
+      transition: color .2s, padding-left .2s;
+    }
+    .nav-mobile-menu a:active { color: var(--cyan); padding-left: .9rem; }
+
+    .nav-scrim {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.5);
+      z-index: 98;
+      opacity: 0;
+      transition: opacity .35s ease;
+      pointer-events: none;
+    }
+    .nav-scrim.open { opacity: 1; pointer-events: auto; }
+
     /* ─── HERO ─── */
     #hero {
-      min-height: 100vh;
+      min-height: 100svh;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       text-align: center;
       padding: 8rem 2rem 4rem;
@@ -87,8 +156,8 @@
 
     h1 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.8rem, 7vw, 6rem);
-      font-weight: 700; line-height: 1.05;
+      font-size: clamp(2.4rem, 9vw, 6rem);
+      font-weight: 700; line-height: 1.08;
       letter-spacing: -.03em;
     }
     .gradient-text {
@@ -97,27 +166,29 @@
     }
     .hero-sub {
       max-width: 520px; margin: 1.5rem auto 0;
-      color: var(--muted); font-size: 1.1rem; line-height: 1.7;
+      color: var(--muted); font-size: clamp(.95rem, 2.6vw, 1.1rem); line-height: 1.7;
     }
-    .hero-ctas { display: flex; gap: 1rem; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; }
+    .hero-ctas { display: flex; gap: 1rem; justify-content: center; margin-top: 2.5rem; flex-wrap: wrap; width: 100%; }
     .btn-primary {
-      padding: .9rem 2rem; border-radius: 100px;
+      padding: 1rem 2rem; border-radius: 100px;
       background: linear-gradient(135deg, var(--violet), var(--violet-lt));
       color: #fff; font-weight: 600; font-size: .95rem;
       text-decoration: none; border: none; cursor: pointer;
       transition: transform .2s, box-shadow .2s;
       box-shadow: 0 0 24px rgba(124,58,237,.4);
+      min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
     }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 36px rgba(124,58,237,.55); }
+    .btn-primary:active { transform: scale(.97); }
     .btn-outline {
-      padding: .9rem 2rem; border-radius: 100px;
+      padding: 1rem 2rem; border-radius: 100px;
       border: 1px solid var(--border); color: var(--white);
       background: var(--glass); backdrop-filter: blur(10px);
       font-weight: 500; font-size: .95rem;
       text-decoration: none; cursor: pointer;
       transition: border-color .2s, transform .2s;
+      min-height: 48px; display: inline-flex; align-items: center; justify-content: center;
     }
-    .btn-outline:hover { border-color: var(--violet-lt); transform: translateY(-2px); }
+    .btn-outline:active { transform: scale(.97); }
 
     .hero-stats {
       display: flex; gap: 3rem; justify-content: center;
@@ -128,7 +199,7 @@
       font-family: 'DM Mono', monospace; font-size: 1.8rem; font-weight: 500;
       color: var(--white); display: block;
     }
-    .stat-label { font-size: .8rem; color: var(--muted); letter-spacing: .05em; }
+    .stat-label { font-size: .78rem; color: var(--muted); letter-spacing: .05em; }
 
     /* ─── SECTION BASE ─── */
     section { padding: 6rem 4rem; max-width: 1200px; margin: 0 auto; }
@@ -139,11 +210,11 @@
     }
     h2 {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 700; letter-spacing: -.025em; line-height: 1.1;
+      font-size: clamp(1.7rem, 6vw, 2.8rem);
+      font-weight: 700; letter-spacing: -.025em; line-height: 1.15;
       margin-bottom: .75rem;
     }
-    .section-lead { color: var(--muted); font-size: 1.05rem; max-width: 500px; margin-bottom: 3rem; }
+    .section-lead { color: var(--muted); font-size: 1.02rem; max-width: 500px; margin-bottom: 3rem; }
 
     /* ─── DIVIDER ─── */
     .divider {
@@ -157,24 +228,6 @@
       display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 1.5rem;
     }
-    .tiktok-card {
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      padding: 2rem;
-      position: relative; overflow: hidden;
-      transition: transform .3s, border-color .3s, box-shadow .3s;
-      cursor: pointer;
-    }
-    .tiktok-card::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: 20px;
-      background: linear-gradient(135deg, rgba(124,58,237,.08), rgba(34,211,238,.06));
-      opacity: 0; transition: opacity .3s;
-    }
-    .tiktok-card:hover { transform: translateY(-6px); border-color: var(--violet-lt); box-shadow: 0 20px 50px rgba(124,58,237,.2); }
-    .tiktok-card:hover::before { opacity: 1; }
 
     .card-platform {
       display: flex; align-items: center; gap: .6rem; margin-bottom: 1.5rem;
@@ -184,33 +237,9 @@
       background: linear-gradient(135deg, #010101, #1a1a2e);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.1rem; border: 1px solid rgba(255,255,255,.1);
+      flex-shrink: 0;
     }
     .platform-name { font-family: 'DM Mono', monospace; font-size: .8rem; color: var(--muted); }
-
-    .card-handle {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.3rem; font-weight: 700; margin-bottom: .4rem;
-    }
-    .card-niche {
-      font-size: .85rem; color: var(--muted); margin-bottom: 1.5rem;
-    }
-    .card-stats {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
-    }
-    .cs-item { background: rgba(255,255,255,.04); border-radius: 10px; padding: .75rem 1rem; }
-    .cs-val {
-      font-family: 'DM Mono', monospace; font-size: 1.1rem; font-weight: 500;
-      color: var(--cyan);
-    }
-    .cs-key { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
-
-    .card-badge {
-      position: absolute; top: 1.2rem; right: 1.2rem;
-      font-size: .72rem; font-family: 'DM Mono', monospace;
-      padding: .3rem .7rem; border-radius: 100px;
-      background: rgba(34,211,238,.12); color: var(--cyan-lt);
-      border: 1px solid rgba(34,211,238,.2);
-    }
 
     /* ─── TIKTOK EMBED CARDS ─── */
     .tiktok-embed-card {
@@ -235,10 +264,11 @@
     }
     .tiktok-embed-card .tiktok-embed {
       margin: 0 auto; border-radius: 14px; overflow: hidden;
+      width: 100%;
     }
     @media (max-width: 480px) {
-      .card-platform { flex-wrap: wrap; }
-      .card-niche-inline { margin-left: 0; }
+      .card-platform { flex-wrap: wrap; row-gap: .4rem; }
+      .card-niche-inline { margin-left: 0; white-space: normal; }
     }
 
     /* ─── WEB PROJECT ─── */
@@ -255,11 +285,11 @@
     .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(34,211,238,.15); border-color: var(--cyan); }
 
     .project-thumb {
-      height: 180px; position: relative; overflow: hidden;
+      height: 160px; position: relative; overflow: hidden;
       background: linear-gradient(135deg, var(--surface), #1e1c3e);
       display: flex; align-items: center; justify-content: center;
     }
-    .thumb-icon { font-size: 3.5rem; opacity: .5; }
+    .thumb-icon { font-size: 3rem; opacity: .5; }
     .thumb-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(34,211,238,.1));
@@ -277,14 +307,16 @@
     .project-desc { font-size: .88rem; color: var(--muted); line-height: 1.6; margin-bottom: 1.2rem; }
     .project-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1.2rem; }
     .tag {
-      font-size: .72rem; padding: .25rem .7rem; border-radius: 100px;
+      font-size: .72rem; padding: .3rem .75rem; border-radius: 100px;
       background: rgba(124,58,237,.12); color: var(--violet-lt);
       border: 1px solid rgba(124,58,237,.2);
     }
+    .project-links-row { display: flex; gap: .75rem; flex-wrap: wrap; }
     .project-link {
       display: inline-flex; align-items: center; gap: .4rem;
       font-size: .85rem; color: var(--cyan); text-decoration: none; font-weight: 500;
       transition: gap .2s;
+      min-height: 36px;
     }
     .project-link:hover { gap: .7rem; }
 
@@ -298,20 +330,22 @@
       padding: 1rem 1.25rem; border-radius: 14px;
       border: 1px solid var(--border); background: var(--glass);
       transition: border-color .2s, transform .2s;
+      min-height: 48px;
     }
     .skill-pill:hover { border-color: var(--violet-lt); transform: translateX(4px); }
-    .skill-icon { font-size: 1.5rem; width: 36px; text-align: center; }
+    .skill-icon { font-size: 1.5rem; width: 36px; text-align: center; flex-shrink: 0; }
     .skill-name { font-size: .9rem; font-weight: 500; }
     .skill-level {
       margin-left: auto; font-family: 'DM Mono', monospace;
       font-size: .75rem; color: var(--violet-lt);
+      white-space: nowrap;
     }
 
     /* ─── CONTACT ─── */
-    #contact { text-align: center; padding: 6rem 2rem 8rem; }
+    #contact { text-align: center; padding: 6rem 1.5rem 8rem; }
     .contact-card {
       max-width: 600px; margin: 0 auto;
-      padding: 3rem; border-radius: 24px;
+      padding: 3rem 2rem; border-radius: 24px;
       border: 1px solid var(--border); background: var(--glass);
       backdrop-filter: blur(20px);
       position: relative; overflow: hidden;
@@ -323,21 +357,22 @@
     }
     .contact-card h2 { margin-bottom: .5rem; }
     .contact-card p { color: var(--muted); margin-bottom: 2rem; }
-    .social-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .social-links { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
     .social-btn {
       display: flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.4rem; border-radius: 100px;
+      padding: .85rem 1.4rem; border-radius: 100px;
       border: 1px solid var(--border); background: rgba(255,255,255,.04);
       color: var(--white); text-decoration: none; font-size: .88rem; font-weight: 500;
       transition: border-color .2s, transform .2s, background .2s;
+      min-height: 44px;
     }
-    .social-btn:hover { border-color: var(--violet-lt); background: rgba(124,58,237,.12); transform: translateY(-2px); }
+    .social-btn:active { transform: scale(.96); background: rgba(124,58,237,.12); }
 
     /* ─── FOOTER ─── */
     footer {
       text-align: center; padding: 2rem;
       border-top: 1px solid var(--border);
-      color: var(--muted); font-size: .82rem;
+      color: var(--muted); font-size: .8rem;
       font-family: 'DM Mono', monospace;
     }
 
@@ -350,12 +385,35 @@
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 10px; }
 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
+    /* ─── KEYBOARD FOCUS ─── */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ─── TABLET ─── */
+    @media (max-width: 900px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
-      section { padding: 4rem 1.5rem; }
-      .hero-stats { gap: 2rem; }
+      .nav-toggle { display: flex; }
+      .nav-mobile-menu, .nav-scrim { display: flex; }
+      section { padding: 4.5rem 1.5rem; }
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 600px) {
+      #hero { padding: 6.5rem 1.25rem 3rem; }
+      .hero-stats { gap: 1.5rem 2rem; margin-top: 3rem; }
+      .stat-num { font-size: 1.5rem; }
+      .hero-ctas { flex-direction: column; align-items: stretch; }
+      .hero-ctas a { width: 100%; }
+      section { padding: 3.5rem 1.25rem; }
+      .section-lead { max-width: 100%; }
+      .tiktok-grid, .project-grid { grid-template-columns: 1fr; }
+      .social-links { flex-direction: column; }
+      .social-btn { width: 100%; justify-content: center; }
+      .contact-card { padding: 2.25rem 1.5rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -375,7 +433,17 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#contact">Kontak</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="nav-scrim" id="navScrim"></div>
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <a href="#tiktok">TikTok</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+  <a href="#contact">Kontak</a>
+</div>
 
 <!-- HERO -->
 <section id="hero">
@@ -488,7 +556,9 @@
           <span class="tag">JavaScript</span>
           <span class="tag">Dashboard</span>
         </div>
-        <a href="https://masawan1.github.io/dashboard_D2PK/" class="project-link" target="_blank">Lihat Project →</a>
+        <div class="project-links-row">
+          <a href="https://masawan1.github.io/dashboard_D2PK/" class="project-link" target="_blank">Lihat Project →</a>
+        </div>
       </div>
     </div>
 
@@ -507,7 +577,9 @@
           <span class="tag">JavaScript</span>
           <span class="tag">Dashboard</span>
         </div>
-        <a href="https://masawan1.github.io/dashboardinformatika/" class="project-link" target="_blank">Lihat Project →</a>
+        <div class="project-links-row">
+          <a href="https://masawan1.github.io/dashboardinformatika/" class="project-link" target="_blank">Lihat Project →</a>
+        </div>
       </div>
     </div>
 
@@ -526,7 +598,9 @@
           <span class="tag">JavaScript</span>
           <span class="tag">Sistem Keuangan</span>
         </div>
-        <a href="https://masawan97.github.io/siskeu-lazismu-ranting/" class="project-link" target="_blank">Lihat Project →</a>
+        <div class="project-links-row">
+          <a href="https://masawan97.github.io/siskeu-lazismu-ranting/" class="project-link" target="_blank">Lihat Project →</a>
+        </div>
       </div>
     </div>
 
@@ -545,7 +619,7 @@
           <span class="tag">JavaScript</span>
           <span class="tag">Multi-role</span>
         </div>
-        <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+        <div class="project-links-row">
           <a href="https://mrcloudddev.github.io/ExamApp/admin/" class="project-link" target="_blank">Panel Admin →</a>
           <a href="https://mrcloudddev.github.io/ExamApp/siswa/" class="project-link" target="_blank">Panel Siswa →</a>
         </div>
@@ -567,7 +641,7 @@
           <span class="tag">JavaScript</span>
           <span class="tag">Multi-role</span>
         </div>
-        <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+        <div class="project-links-row">
           <a href="https://mrcloudddev.github.io/kasir/admin" class="project-link" target="_blank">Panel Admin →</a>
           <a href="https://mrcloudddev.github.io/kasir/kasir" class="project-link" target="_blank">Panel Kasir →</a>
         </div>
@@ -650,6 +724,31 @@
     entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); counterObs.unobserve(e.target); } });
   }, { threshold: .5 });
   counters.forEach(c => counterObs.observe(c));
+
+  // Mobile hamburger menu
+  const navToggle = document.getElementById('navToggle');
+  const navMobileMenu = document.getElementById('navMobileMenu');
+  const navScrim = document.getElementById('navScrim');
+
+  function closeMenu() {
+    navToggle.classList.remove('active');
+    navMobileMenu.classList.remove('open');
+    navScrim.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+  function openMenu() {
+    navToggle.classList.add('active');
+    navMobileMenu.classList.add('open');
+    navScrim.classList.add('open');
+    navToggle.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+  navToggle.addEventListener('click', () => {
+    navMobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  navScrim.addEventListener('click', closeMenu);
+  navMobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 </script>
 </body>
 </html>
