@@ -212,6 +212,35 @@
       border: 1px solid rgba(34,211,238,.2);
     }
 
+    /* ─── TIKTOK EMBED CARDS ─── */
+    .tiktok-embed-card {
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      padding: 1.5rem 1.5rem .5rem;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .3s, border-color .3s, box-shadow .3s;
+    }
+    .tiktok-embed-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--violet-lt);
+      box-shadow: 0 20px 50px rgba(124,58,237,.2);
+    }
+    .card-niche-inline {
+      margin-left: auto;
+      font-size: .8rem; color: var(--muted);
+      white-space: nowrap;
+    }
+    .tiktok-embed-card .tiktok-embed {
+      margin: 0 auto; border-radius: 14px; overflow: hidden;
+    }
+    @media (max-width: 480px) {
+      .card-platform { flex-wrap: wrap; }
+      .card-niche-inline { margin-left: 0; }
+    }
+
     /* ─── WEB PROJECT ─── */
     .project-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
@@ -389,99 +418,50 @@
 <section id="tiktok">
   <p class="section-eyebrow reveal">✦ Social Media</p>
   <h2 class="reveal">Akun <span class="gradient-text">TikTok</span></h2>
-  <p class="section-lead reveal">Tiga akun dengan niche berbeda — edukasi, teknologi, dan lifestyle. Setiap konten dibuat dengan tujuan dan dampak yang jelas.</p>
+  <p class="section-lead reveal">Tiga akun dengan niche berbeda — edukasi, teknologi, dan lifestyle. Profil dan video terbaru tampil langsung dari TikTok.</p>
 
   <div class="tiktok-grid">
 
     <!-- Akun 1 -->
-    <div class="tiktok-card reveal">
-      <span class="card-badge">● Live</span>
+    <div class="tiktok-embed-card reveal">
       <div class="card-platform">
         <div class="tt-icon">🎵</div>
         <span class="platform-name">TikTok</span>
+        <span class="card-niche-inline">📚 Edukasi &amp; Tips Belajar</span>
       </div>
-      <div class="card-handle">@NamaAkun1</div>
-      <div class="card-niche">📚 Edukasi &amp; Tips Belajar</div>
-      <div class="card-stats">
-        <div class="cs-item">
-          <div class="cs-val">12.5K</div>
-          <div class="cs-key">Followers</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">850K</div>
-          <div class="cs-key">Total Views</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">4.8%</div>
-          <div class="cs-key">Engagement</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">120+</div>
-          <div class="cs-key">Videos</div>
-        </div>
-      </div>
+      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@mascloudd" data-unique-id="mascloudd" data-embed-type="creator" style="max-width: 100%; min-width: 288px;">
+        <section> <a target="_blank" href="https://www.tiktok.com/@mascloudd?refer=creator_embed">@mascloudd</a> </section>
+      </blockquote>
     </div>
 
     <!-- Akun 2 -->
-    <div class="tiktok-card reveal" style="transition-delay:.1s">
-      <span class="card-badge">● Live</span>
+    <div class="tiktok-embed-card reveal" style="transition-delay:.1s">
       <div class="card-platform">
         <div class="tt-icon">🎵</div>
         <span class="platform-name">TikTok</span>
+        <span class="card-niche-inline">💻 Teknologi &amp; Coding</span>
       </div>
-      <div class="card-handle">@NamaAkun2</div>
-      <div class="card-niche">💻 Teknologi &amp; Coding</div>
-      <div class="card-stats">
-        <div class="cs-item">
-          <div class="cs-val">22K</div>
-          <div class="cs-key">Followers</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">1.4M</div>
-          <div class="cs-key">Total Views</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">5.2%</div>
-          <div class="cs-key">Engagement</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">200+</div>
-          <div class="cs-key">Videos</div>
-        </div>
-      </div>
+      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@mascloud2" data-unique-id="mascloud2" data-embed-type="creator" style="max-width: 100%; min-width: 288px;">
+        <section> <a target="_blank" href="https://www.tiktok.com/@mascloud2?refer=creator_embed">@mascloud2</a> </section>
+      </blockquote>
     </div>
 
     <!-- Akun 3 -->
-    <div class="tiktok-card reveal" style="transition-delay:.2s">
-      <span class="card-badge">● Live</span>
+    <div class="tiktok-embed-card reveal" style="transition-delay:.2s">
       <div class="card-platform">
         <div class="tt-icon">🎵</div>
         <span class="platform-name">TikTok</span>
+        <span class="card-niche-inline">🌟 Lifestyle &amp; Daily Life</span>
       </div>
-      <div class="card-handle">@NamaAkun3</div>
-      <div class="card-niche">🌟 Lifestyle &amp; Daily Life</div>
-      <div class="card-stats">
-        <div class="cs-item">
-          <div class="cs-val">16K</div>
-          <div class="cs-key">Followers</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">920K</div>
-          <div class="cs-key">Total Views</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">4.1%</div>
-          <div class="cs-key">Engagement</div>
-        </div>
-        <div class="cs-item">
-          <div class="cs-val">90+</div>
-          <div class="cs-key">Videos</div>
-        </div>
-      </div>
+      <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@dwfrediawan" data-unique-id="dwfrediawan" data-embed-type="creator" style="max-width: 100%; min-width: 288px;">
+        <section> <a target="_blank" href="https://www.tiktok.com/@dwfrediawan?refer=creator_embed">@dwfrediawan</a> </section>
+      </blockquote>
     </div>
 
   </div>
 </section>
+
+<script async src="https://www.tiktok.com/embed.js"></script>
 
 <div class="divider"></div>
 
@@ -603,9 +583,9 @@
     <p>Terbuka untuk kerja sama brand, freelance web, atau kolaborasi konten. Kirim pesan, kita ngobrol dulu!</p>
     <div class="social-links">
       <a href="mailto:email@kamu.com" class="social-btn">📧 Email</a>
-      <a href="https://tiktok.com/@NamaAkun1" class="social-btn" target="_blank">🎵 TikTok #1</a>
-      <a href="https://tiktok.com/@NamaAkun2" class="social-btn" target="_blank">🎵 TikTok #2</a>
-      <a href="https://tiktok.com/@NamaAkun3" class="social-btn" target="_blank">🎵 TikTok #3</a>
+      <a href="https://tiktok.com/@mascloudd" class="social-btn" target="_blank">🎵 @mascloudd</a>
+      <a href="https://tiktok.com/@mascloud2" class="social-btn" target="_blank">🎵 @mascloud2</a>
+      <a href="https://tiktok.com/@dwfrediawan" class="social-btn" target="_blank">🎵 @dwfrediawan</a>
       <a href="https://instagram.com" class="social-btn" target="_blank">📸 Instagram</a>
     </div>
   </div>
